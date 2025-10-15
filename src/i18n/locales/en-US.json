@@ -1,0 +1,15 @@
+{
+  "locale": {
+    "en-US": "English",
+    "zh-CN": "简体中文"
+  },
+  "page": {
+    "contract_address": "Contract Address",
+    "json_abi": "JSON Abi",
+    "submit": "Submit",
+    "read": "Read",
+    "write": "Write",
+    "no_read_functions": "No read functions",
+    "no_write_functions": "No write functions"
+  }
+}
