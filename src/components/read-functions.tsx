@@ -74,12 +74,16 @@ const FunctionItem = ({
           const revertError = error.walk(
             (err) => err instanceof ContractFunctionRevertedError,
           );
-          if (revertError instanceof ContractFunctionRevertedError) {
-            const errorName = revertError.data?.errorName ?? "";
-            toast.error(`Reverted: ${errorName}`);
+          if (
+            revertError instanceof ContractFunctionRevertedError &&
+            revertError.data?.errorName
+          ) {
+            toast.error(`Reverted: ${revertError.data.errorName}`);
           } else {
             toast.error(error.shortMessage);
           }
+          console.error(error.cause);
+          return;
         }
         console.error(error);
       }
