@@ -36,7 +36,7 @@ export const getAbiFunctionInputSchema = (
 
 const abiTypeToZodSchema = (abiType: AbiType | string) => {
   if (abiType === "address") {
-    return z.string().refine((addr) => isAddress(addr), {
+    return z.string("Required address").refine((addr) => isAddress(addr), {
       message: "Invalid address",
     });
   }
@@ -54,12 +54,12 @@ const abiTypeToZodSchema = (abiType: AbiType | string) => {
     const hexLength = size * 2;
 
     return z.coerce
-      .string()
-      .regex(new RegExp(`^0x[0-9a-fA-F]{${hexLength}}$`), "Invalid hex string");
+      .string("Required hex value")
+      .regex(new RegExp(`^0x[0-9a-fA-F]{${hexLength}}$`), "Invalid hex value");
   }
 
   if (/^u?int\d*$/.test(abiType)) {
-    return z.coerce.bigint("Invalid value");
+    return z.coerce.bigint("Invalid amount");
   }
 
   return z.unknown();

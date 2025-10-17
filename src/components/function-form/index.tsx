@@ -78,22 +78,26 @@ export const FunctionForm = ({
   );
 };
 
+const fieldRenderers = {
+  bool: (props: FieldProps<boolean>) => <BoolField {...props} />,
+  int: (props: FieldProps<string>) => <IntField {...props} />,
+  address: (props: FieldProps<string>) => <AddressField {...props} />,
+  string: (props: FieldProps<string>) => <StringField {...props} />,
+  bytes: (props: FieldProps<string>) => <StringField {...props} />,
+  default: (props: FieldProps<string>) => <StringField {...props} />,
+} as const;
+
+const getFieldCategory = (type: string): keyof typeof fieldRenderers => {
+  if (type === "bool") return "bool";
+  if (/^u?int\d*$/.test(type)) return "int";
+  if (type === "address") return "address";
+  if (type === "string") return "string";
+  if (/^bytes([1-9]|[12][0-9]|3[0-2])$/.test(type)) return "bytes";
+  return "default";
+};
+
 const renderFieldByType = (type: string, field: FieldProps<unknown>) => {
-  if (type === "bool") {
-    return <BoolField {...(field as FieldProps<boolean>)} />;
-  }
-
-  if (/^u?int\d*$/.test(type)) {
-    return <IntField {...(field as FieldProps<string>)} />;
-  }
-
-  if (type === "address") {
-    return <AddressField {...(field as FieldProps<string>)} />;
-  }
-
-  if (type === "string" || /^bytes([1-9]|[12][0-9]|3[0-2])$/.test(type)) {
-    return <StringField {...(field as FieldProps<string>)} />;
-  }
-
-  return <StringField {...(field as FieldProps<string>)} />;
+  const category = getFieldCategory(type);
+  const renderer = fieldRenderers[category];
+  return renderer(field as never);
 };

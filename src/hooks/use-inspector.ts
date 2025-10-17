@@ -18,7 +18,7 @@ export const useInspector = () => {
         return typeof addr === "string" && isAddress(addr);
       },
       {
-        message: "Invalid Ethereum address",
+        message: "Invalid contract address",
       },
     ),
     abi: z.string().refine(
