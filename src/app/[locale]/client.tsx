@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea, TextareaContainer } from "@/components/ui/textarea";
+import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { WriteFunctions } from "@/components/write-functions";
 import { useInspector } from "@/hooks/use-inspector";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -70,13 +70,17 @@ export const Client = () => {
                 <FormField
                   control={form.control}
                   name="abi"
-                  render={({ field }) => (
+                  render={({ field: { ref, disabled, ...rest } }) => (
                     <FormItem className="flex flex-col gap-2 h-full">
                       <FormLabel>{t("json_abi")}</FormLabel>
                       <FormControl>
-                        <TextareaContainer {...field}>
-                          <Textarea minRows={10} maxRows={20} />
-                        </TextareaContainer>
+                        <Textarea
+                          variant="bordered"
+                          ref={ref}
+                          disabled={disabled}
+                        >
+                          <TextareaInput minRows={10} maxRows={20} {...rest} />
+                        </Textarea>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
